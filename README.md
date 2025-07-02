@@ -1,1 +1,1 @@
-# structural-calculators-app
+# Structural Calculators App
