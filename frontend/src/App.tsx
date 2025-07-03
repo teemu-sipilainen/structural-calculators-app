@@ -1,3 +1,5 @@
+import Beam from "./components/Beam";
+
 const App = () => {
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
@@ -24,6 +26,7 @@ const App = () => {
           <h1>Welcome to Structural Calculators App</h1>
           <p>This is the initial setup of your React + TypeScript project.</p>
         </div>
+        <Beam />
       </main>
     </div>
   );
