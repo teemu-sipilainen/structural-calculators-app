@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer base {
+  h1 {
+    @apply text-3xl font-bold text-gray-800;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold text-gray-700;
+  }
+
+  p {
+    @apply text-base text-gray-700 leading-relaxed;
+  }
+
+  button {
+    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700;
+  }
+}
