@@ -1,11 +1,11 @@
-TRUNCATE TABLE reinforced_concrete_beams RESTART IDENTITY;
+TRUNCATE TABLE reinforced_concrete_beams RESTART IDENTITY CASCADE;
 TRUNCATE TABLE users RESTART IDENTITY CASCADE;
 
 INSERT INTO users (username, email, first_name, last_name, password_hash)
 VALUES
-  ('jdoe', 'jdoe@example.com', 'John', 'Doe', 'argon2hashedpassword1'),
-  ('asmith', 'asmith@example.com', 'Anna', 'Smith', 'argon2hashedpassword2'),
-  ('bwayne', 'bwayne@example.com', 'Bruce', 'Wayne', 'argon2hashedpassword3');
+  ('guest1', 'guest1@user.com', 'Guest1', 'User', '$argon2id$v=19$m=65536,t=3,p=4$7tboTdt8+oOcBulzcJQfew$PEpI6ExcZqrhRMqeZLaaO+tMSn2jfIyWXm50U3mhfaU'),
+  ('guest2', 'guest2@user.com', 'Guest2', 'User', '$argon2id$v=19$m=65536,t=3,p=4$JdVbGSuRbQI2xffPMHOhkw$TzAc2n5qHLMAIECRmIda4am9WSHwkN6gf6GsuhOQwSc'),
+  ('guest3', 'guest3@user.com', 'Guest3', 'User', '$argon2id$v=19$m=65536,t=3,p=4$tS+/4FWO1KtsFNrs59lgAg$7fEu9oZetq5EA51ljAppsvTScCfHJ7YkzACblMWL1Ok');
 
 INSERT INTO reinforced_concrete_beams 
   (name, length, width, height, concrete_grade, steel_grade, reinforcement_area, user_id)

@@ -3,7 +3,7 @@ import * as authService from '../services/authService';
 import * as UserTypes from '../types/UserTypes';
 
 const Register = () => {
-  const initialUserState: UserTypes.UserInputFields = {
+  const initialUserState: UserTypes.UserRegisterForm = {
     username: "",
     email: "",
     firstName: "",
@@ -12,7 +12,7 @@ const Register = () => {
     confirmPassword: "",
   };
 
-  const [user, setUser] = useState<UserTypes.UserInputFields>(initialUserState);
+  const [user, setUser] = useState<UserTypes.UserRegisterForm>(initialUserState);
 
   const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUser(prev => {
@@ -120,7 +120,7 @@ const Register = () => {
           type="submit"
 
         >
-          Submit
+          Register
         </button>
 
         <button

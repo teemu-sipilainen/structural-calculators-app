@@ -2,6 +2,11 @@ export interface UserDbRowWithPasswordHash extends UserDbRowWithoutPasswordHash 
   'passwordHash': string;
 }
 
+export interface UsernameAndPasswordHash {
+  'username': string;
+  'passwordHash': string;
+}
+
 export interface UserDbRowWithoutPasswordHash {
   'id': number;
   'username': string;

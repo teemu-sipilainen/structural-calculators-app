@@ -1,4 +1,4 @@
-export interface UserInputFields {
+export interface UserRegisterForm {
   'username': string;
   'email': string;
   'firstName': string;
@@ -7,7 +7,20 @@ export interface UserInputFields {
   'confirmPassword': string;
 }
 
+export interface UserLoginPostRequest {
+  'username': string;
+  'password': string;
+}
+
 export interface UserPostRequest {
+  'username': string;
+  'email': string;
+  'firstName': string;
+  'lastName': string;
+  'password': string;
+}
+
+export interface UserRegisterPostRequest {
   'username': string;
   'email': string;
   'firstName': string;

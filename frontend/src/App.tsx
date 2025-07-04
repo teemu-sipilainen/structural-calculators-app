@@ -19,8 +19,8 @@ const App = () => {
             <Link className="nav-link" to="/concrete/slabs">Slabs</Link>
           </div>
           <div className="m-1 flex gap-2 flex-wrap">
-            <Link className="nav-link nav-link-green" to="/auth/register">Register</Link>
-            <Link className="nav-link nav-link-green" to="/auth/login">Login</Link>
+            <Link className="nav-link nav-link-green" to="/register">Register</Link>
+            <Link className="nav-link nav-link-green" to="/login">Login</Link>
           </div>
         </nav>
 
@@ -30,8 +30,8 @@ const App = () => {
             <Route path="/concrete/beams" element={<Beams />} />
             <Route path="/concrete/columns" element={<Columns />} />
             <Route path="/concrete/slabs" element={<Slabs />} />
-            <Route path="/auth/register" element={<Register />} />
-            <Route path="/auth/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
       </BrowserRouter>
