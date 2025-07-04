@@ -1,6 +1,6 @@
 import { Request, RequestHandler, Response } from 'express';
 import * as beamsDao from '../dao/reinforcedConcreteBeamsDao';
-import * as BeamsTypes from '../types/BeamsTypes';
+import * as BeamsTypes from '../types/BeamTypes';
 
 export const getAllBeams: RequestHandler = async (_request: Request, response: Response) => {
   try {
