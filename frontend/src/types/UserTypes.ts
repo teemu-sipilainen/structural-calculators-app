@@ -1,3 +1,14 @@
+export interface UserResponse {
+  'id': number;
+  'username': string;
+  'email': string;
+  'firstName': string;
+  'lastName': string;
+  'password'?: string;
+  'createdAt': string;
+  'modifiedAt': string;
+}
+
 export interface UserRegisterForm {
   'username': string;
   'email': string;

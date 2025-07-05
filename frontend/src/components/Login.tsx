@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Loader from './Loader';
 import * as authService from '../services/authService';
 import * as UserTypes from '../types/UserTypes';
 
@@ -10,6 +11,7 @@ const Login = () => {
   };
 
   const [user, setUser] = useState<UserTypes.UserLoginPostRequest>(initialUserState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUser(prev => {
@@ -20,13 +22,15 @@ const Login = () => {
   const handleLoginSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    setIsLoading(true);
     try {
       const userToLogin = { ...user };
       const response = await authService.loginUser(userToLogin);
-      console.log(response.data);
       setUser(initialUserState);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -34,6 +38,10 @@ const Login = () => {
     setUser(prev => {
       return { ...prev, username: event.target.value }
     });
+  }
+
+  if (isLoading) {
+    return <Loader />
   }
 
   return (

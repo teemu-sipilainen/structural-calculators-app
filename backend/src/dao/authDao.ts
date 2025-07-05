@@ -10,11 +10,30 @@ export const getUserWithPasswordHashByUsername =
     return result.rows.length > 0 ? result.rows[0] : null;
   };
 
+export const quickRegisterUser =
+  async (newUser: UserTypes.UserPostRequest): Promise<UserTypes.UserDbRowWithPasswordHash | null> => {
+    const { username, email, firstName, lastName, password } = newUser;
+    const params = [username, email, firstName, lastName, password];
+
+    const result = await executeQuery(authQueries.registerUser, params);
+    return result.rows.length > 0 ? result.rows[0] : null;
+  };
+
 export const registerUser =
   async (newUser: UserTypes.UserPostRequest): Promise<UserTypes.UserDbRowWithoutPasswordHash | null> => {
     const { username, email, firstName, lastName, password } = newUser;
     const params = [username, email, firstName, lastName, password];
 
     const result = await executeQuery(authQueries.registerUser, params);
+    return result.rows.length > 0 ? result.rows[0] : null;
+  };
+
+export const updateUserUsernameById =
+  async (
+    id: number | string,
+    username: string
+  ): Promise<UserTypes.UserDbRowWithoutPasswordHash | null> => {
+    const params = [id, username];
+    const result = await executeQuery(authQueries.updateUserUsernameById, params);
     return result.rows.length > 0 ? result.rows[0] : null;
   };

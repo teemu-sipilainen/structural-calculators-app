@@ -7,6 +7,10 @@ export const loginUser = async (userToLogin: UserTypes.UserLoginPostRequest) => 
   return axios.post(`${baseUrl}/api/auth/login`, userToLogin);
 }
 
+export const quickRegisterUser = async () => {
+  return axios.post(`${baseUrl}/api/auth/quick-register`);
+}
+
 export const registerUser = async (userToBeRegistered: UserTypes.UserRegisterPostRequest) => {
   return axios.post(`${baseUrl}/api/auth/register`, userToBeRegistered);
 }

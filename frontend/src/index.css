@@ -1,12 +1,26 @@
 @import "tailwindcss";
 
 @layer base {
-  a.nav-link {
-    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700 transition;
+  a.link {
+    @apply text-blue-600 hover:underline transition-colors duration-200;
+  }
+  
+  a.nav-link-blue {
+    @apply text-white font-medium px-4 py-2 rounded transition;
+    @apply bg-blue-600 hover:bg-blue-700;
+  }
+
+  a.nav-link-blue.active {
+    @apply bg-blue-800;
   }
 
   a.nav-link-green {
+    @apply text-white font-medium px-4 py-2 rounded transition;
     @apply bg-green-600 hover:bg-green-700;
+  }
+
+  a.nav-link-green.active {
+    @apply bg-green-800;
   }
 
   body {
@@ -14,7 +28,11 @@
   }
 
   button {
-    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700;
+    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700 cursor-pointer;
+  }
+
+  div.card {
+    @apply bg-white shadow-md rounded-2xl p-6;
   }
 
   h1 {
