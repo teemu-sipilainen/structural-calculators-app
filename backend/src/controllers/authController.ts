@@ -36,7 +36,13 @@ export const loginUser: RequestHandler = async (request: Request, response: Resp
 
     const accessToken = jwt.sign(payload, secret, options);
 
-    response.status(200).json({ success: true, accessToken });
+    response.status(200).json({
+      success: true,
+      data: {
+        username: storedUser.username
+      },
+      accessToken
+    });
     return;
 
   } catch (error) {

@@ -1,22 +1,36 @@
-import { useState } from 'react';
-import Loader from './Loader';
+import { useContext, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import LoadingModal from '../modals/LoadingModal';
+import LoginForm from './LoginForm'
 import * as authService from '../services/authService';
 import * as UserTypes from '../types/UserTypes';
 
+interface LoginProps {
+  onSuccess?: () => void;
+}
 
-const Login = () => {
+const Login = ({ onSuccess }: LoginProps) => {
+  const auth = useContext(AuthContext);
+
   const initialUserState: UserTypes.UserLoginPostRequest = {
     username: "",
     password: "",
   };
 
-  const [user, setUser] = useState<UserTypes.UserLoginPostRequest>(initialUserState);
+  const [loginFormData, setLoginFormData] = useState<UserTypes.UserLoginPostRequest>(initialUserState);
   const [isLoading, setIsLoading] = useState(false);
 
+  if (!auth) return null;
+  const { user, setUser } = auth;
+
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setLoginFormData(prev => {
       return { ...prev, password: event.target.value }
     });
+  }
+
+  const handleLoginReset = () => {
+    setLoginFormData(initialUserState);
   }
 
   const handleLoginSubmit = async (event: React.FormEvent) => {
@@ -24,9 +38,14 @@ const Login = () => {
 
     setIsLoading(true);
     try {
-      const userToLogin = { ...user };
+      const userToLogin = { ...loginFormData };
       const response = await authService.loginUser(userToLogin);
-      setUser(initialUserState);
+      console.log(response.data);
+      setUser(response.data.data)
+      setLoginFormData(initialUserState);
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -35,50 +54,30 @@ const Login = () => {
   }
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setLoginFormData(prev => {
       return { ...prev, username: event.target.value }
     });
   }
 
-  if (isLoading) {
-    return <Loader />
-  }
-
   return (
     <>
-      <h1>Login</h1>
+      <LoadingModal
+        isOpen={isLoading}
+        shouldCloseOnCloseButton={false}
+        shouldCloseOnEsc={false}
+        shouldCloseOnOverlayClick={false}
+      />
 
-      <form
-        className="flex flex-col space-y-4 max-w-md mx-auto"
-        onSubmit={handleLoginSubmit}
-      >
-        <input
-          type="text"
-          value={user.username ?? ""}
-          placeholder={user.username || "Username"}
-          onChange={handleUsernameChange}
+      <div className="flex flex-col space-y-4 max-w-md mx-auto">
+        <h1>Login</h1>
+        <LoginForm
+          user={loginFormData}
+          handleLoginSubmit={handleLoginSubmit}
+          handleUsernameChange={handleUsernameChange}
+          handlePasswordChange={handlePasswordChange}
+          handleLoginReset={handleLoginReset}
         />
-
-        <input
-          type="password"
-          value={user.password ?? ""}
-          placeholder={user.password || "Password"}
-          onChange={handlePasswordChange}
-        />
-
-        <button
-          type="submit"
-
-        >
-          Login
-        </button>
-
-        <button
-          type="button"
-        >
-          Reset
-        </button>
-      </form>
+      </div>
     </>
   );
 };

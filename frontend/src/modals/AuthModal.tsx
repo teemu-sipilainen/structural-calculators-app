@@ -1,19 +1,24 @@
-import { useState } from 'react';
-import Modal from 'react-modal';
+import CustomModal from './CustomModal';
+import Login from '../components/Login';
 
 interface AuthModalProps {
   isOpen: boolean;
-  onAfterOpen: () => void;
+  contentLabel?: string;
+  onCloseButtonClick: () => void;
   onRequestClose: () => void;
+  onSuccess: () => void;
 }
 
-const AuthModal = (isOpen, onAfterOpen, onRequestClose): AuthModalProps => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const AuthModal = ({ isOpen, contentLabel, onCloseButtonClick, onRequestClose, onSuccess }: AuthModalProps) => {
   return (
-    <div>
-
-    </div>
+    <CustomModal
+      isOpen={isOpen}
+      contentLabel={contentLabel || "Login"}
+      onCloseButtonClick={onCloseButtonClick}
+      onRequestClose={onRequestClose}
+    >
+      <Login onSuccess={onSuccess} />
+    </CustomModal >
   );
 };
 

@@ -50,4 +50,18 @@
   p {
     @apply text-base text-gray-700 leading-relaxed;
   }
+
+  /* .ReactModal__Overlay */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/40 flex items-center justify-center z-50;
+  }
+
+  /* .ReactModal__Content */
+  .modal-content {
+    @apply bg-white rounded-2xl shadow-xl p-6 max-w-md w-full relative outline-none;
+  }
+
+  .modal-close-button {
+    @apply absolute top-4 right-4 text-gray-500 hover:text-gray-700;
+  }
 }

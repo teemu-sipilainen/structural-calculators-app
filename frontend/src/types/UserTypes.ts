@@ -38,3 +38,7 @@ export interface UserRegisterPostRequest {
   'lastName': string;
   'password': string;
 }
+
+export interface UserInAuthContext {
+  username: string;
+}

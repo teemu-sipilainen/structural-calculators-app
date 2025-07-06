@@ -1,14 +1,39 @@
+import { useContext, useState } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { AuthContext } from './contexts/AuthContext';
+import AuthModal from './modals/AuthModal';
 import Main from "./components/Main";
 import Beams from "./components/Beams";
 import Columns from "./components/Columns";
 import Slabs from "./components/Slabs";
 import Register from "./components/Register";
-import Login from "./components/Login";
+import Login from './components/Login';
+
+
 
 const App = () => {
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  const auth = useContext(AuthContext);
+  if (!auth) return null;
+  const { user, setUser } = auth;
+
+  const handleLoginModalButtonClick = () => {
+    setIsAuthModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setIsAuthModalOpen(false);
+  }
+
   return (
     <div>
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onCloseButtonClick={handleCloseModal}
+        onRequestClose={handleCloseModal}
+        onSuccess={handleCloseModal}
+      />
 
       <BrowserRouter>
         <div className="container mx-auto">
@@ -19,9 +44,24 @@ const App = () => {
               <NavLink className={({ isActive }) => isActive ? "nav-link-blue active" : "nav-link-blue"} to="/concrete/columns">Columns</NavLink>
               <NavLink className={({ isActive }) => isActive ? "nav-link-blue active" : "nav-link-blue"} to="/concrete/slabs">Slabs</NavLink>
             </div>
+
             <div className="m-1 flex gap-2 flex-wrap">
+              {user ? (
+                <>
+                  Welcome, {user.username}!
+                  <NavLink className={({ isActive }) => isActive ? "nav-link-green active" : "nav-link-green"} to="/logout">Logout</NavLink>
+                </>
+              ) : (
+                <NavLink className={({ isActive }) => isActive ? "nav-link-green active" : "nav-link-green"} to="/login">Login</NavLink>
+              )}
               <NavLink className={({ isActive }) => isActive ? "nav-link-green active" : "nav-link-green"} to="/register">Register</NavLink>
-              <NavLink className={({ isActive }) => isActive ? "nav-link-green active" : "nav-link-green"} to="/login">Login</NavLink>
+              <button
+                type="button"
+                className="nav-link-green"
+                onClick={handleLoginModalButtonClick}
+              >
+                Login Modal
+              </button>
             </div>
           </nav>
 
