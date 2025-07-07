@@ -30,12 +30,14 @@ const LoginForm = ({ user, handleLoginSubmit, handleUsernameChange, handlePasswo
 
       <button
         type="submit"
+        className='btn-green'
       >
         Login
       </button>
 
       <button
         type="button"
+        className='btn-green'
         onClick={handleLoginReset}
       >
         Reset

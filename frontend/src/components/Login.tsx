@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import LoadingModal from '../modals/LoadingModal';
 import LoginForm from './LoginForm'
@@ -11,6 +12,7 @@ interface LoginProps {
 
 const Login = ({ onSuccess }: LoginProps) => {
   const auth = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const initialUserState: UserTypes.UserLoginPostRequest = {
     username: "",
@@ -21,7 +23,7 @@ const Login = ({ onSuccess }: LoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!auth) return null;
-  const { user, setUser } = auth;
+  const { setUser, setAccessToken } = auth;
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginFormData(prev => {
@@ -36,16 +38,22 @@ const Login = ({ onSuccess }: LoginProps) => {
   const handleLoginSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (!loginFormData.username || !loginFormData.password) return;
+
     setIsLoading(true);
     try {
       const userToLogin = { ...loginFormData };
       const response = await authService.loginUser(userToLogin);
-      console.log(response.data);
-      setUser(response.data.data)
+      console.log("Response data:", response.data.data);
+      setUser({
+        username: response.data.data.username
+      });
+      setAccessToken(response.data.data.accessToken);
       setLoginFormData(initialUserState);
       if (onSuccess) {
         onSuccess();
       }
+      navigate("/");
     } catch (error) {
       console.error(error);
     } finally {

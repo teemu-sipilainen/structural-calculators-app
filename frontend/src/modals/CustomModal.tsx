@@ -44,7 +44,7 @@ const CustomModal = ({
         {shouldCloseOnCloseButton && (
           <button
             type="button"
-            className="w-full"
+            className="btn-green w-full"
             onClick={onCloseButtonClick}
           >
             Close

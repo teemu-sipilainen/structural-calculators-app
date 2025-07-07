@@ -5,6 +5,23 @@ import { v4 as uuidv4 } from 'uuid';
 import * as authDao from '../dao/authDao';
 import * as UserTypes from '../types/UserTypes';
 
+const generateAccessToken = (username: string): string => {
+  const payload = {
+    username
+  };
+
+  if (!process.env.SECRET) {
+    throw new Error('SECRET env variable is not defined');
+  }
+
+  const secret: string = process.env.SECRET as string;
+  const options: SignOptions = { expiresIn: '1h' };
+
+  const accessToken = jwt.sign(payload, secret, options);
+
+  return accessToken;
+};
+
 export const loginUser: RequestHandler = async (request: Request, response: Response) => {
   const { username, password } = request.body;
 
@@ -23,25 +40,14 @@ export const loginUser: RequestHandler = async (request: Request, response: Resp
       return;
     }
 
-    const payload = {
-      username: storedUser.username
-    };
-
-    if (!process.env.SECRET) {
-      throw new Error('SECRET env variable is not defined');
-    }
-
-    const secret: string = process.env.SECRET as string;
-    const options: SignOptions = { expiresIn: '1h' };
-
-    const accessToken = jwt.sign(payload, secret, options);
+    const accessToken = generateAccessToken(storedUser.username);
 
     response.status(200).json({
       success: true,
       data: {
-        username: storedUser.username
+        username: storedUser.username,
+        accessToken
       },
-      accessToken
     });
     return;
 
@@ -89,8 +95,17 @@ export const quickRegisterUser: RequestHandler = async (request: Request, respon
         password: generatedPassword
       };
 
-      if (registeredUser) {
-        response.status(201).json({ success: true, data: updatedRegisteredUserWithPassword });
+      if (updatedRegisteredUser && updatedRegisteredUserWithPassword.username) {
+        const accessToken = generateAccessToken(updatedRegisteredUserWithPassword.username);
+
+        response.status(201).json({
+          success: true,
+          data: {
+            user: updatedRegisteredUserWithPassword,
+            username: updatedRegisteredUserWithPassword.username,
+            accessToken
+          }
+        });
         return;
       }
 

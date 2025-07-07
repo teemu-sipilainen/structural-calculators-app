@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 import Loader from './Loader';
 import * as authService from '../services/authService';
 import * as UserTypes from '../types/UserTypes';
 
 const Register = () => {
+  const auth = useContext(AuthContext);
+
   const initialUserState: UserTypes.UserRegisterForm = {
     username: "",
     email: "",
@@ -14,51 +17,59 @@ const Register = () => {
     confirmPassword: "",
   };
 
-  const [user, setUser] = useState<UserTypes.UserRegisterForm>(initialUserState);
+  const [registeredFormData, setRegisteredFormData] = useState<UserTypes.UserRegisterForm>(initialUserState);
   const [registeredUser, setRegisteredUser] = useState<UserTypes.UserResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  if (!auth) return null;
+  const { setUser, setAccessToken } = auth;
+
   const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setRegisteredFormData(prev => {
       return { ...prev, confirmPassword: event.target.value }
     });
   }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setRegisteredFormData(prev => {
       return { ...prev, email: event.target.value }
     });
   }
 
   const handleFirstnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setRegisteredFormData(prev => {
       return { ...prev, firstName: event.target.value }
     });
   }
 
   const handleLastnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setRegisteredFormData(prev => {
       return { ...prev, lastName: event.target.value }
     });
   }
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setRegisteredFormData(prev => {
       return { ...prev, password: event.target.value }
     });
   }
 
   const handleResetButtonClick = () => {
-    setUser(initialUserState);
+    setRegisteredFormData(initialUserState);
   }
 
   const handleQuickRegisterButtonClick = async () => {
     setIsLoading(true);
     try {
       const response = await authService.quickRegisterUser();
-      setRegisteredUser(response.data.data);
-      setUser(initialUserState);
+      console.log("Response data:", response.data.data);
+      setRegisteredUser(response.data.data.user);
+      setUser({
+        username: response.data.data.username
+      });
+      setAccessToken(response.data.data.accessToken);
+      setRegisteredFormData(initialUserState);
     } catch (error) {
       console.error(error);
     } finally {
@@ -68,18 +79,18 @@ const Register = () => {
 
   const handleRegisterSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (user.password !== user.confirmPassword) return;
+    if (registeredFormData.password !== registeredFormData.confirmPassword) return;
 
     setIsLoading(true);
     try {
       const {
         confirmPassword: _confirmPassword,
         ...userToBeRegistered
-      } = user;
+      } = registeredFormData;
 
       const response = await authService.registerUser(userToBeRegistered);
       setRegisteredUser(response.data.data);
-      setUser(initialUserState);
+      setRegisteredFormData(initialUserState);
     } catch (error) {
       console.error(error);
     } finally {
@@ -88,7 +99,7 @@ const Register = () => {
   }
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(prev => {
+    setRegisteredFormData(prev => {
       return { ...prev, username: event.target.value }
     });
   }
@@ -150,43 +161,43 @@ const Register = () => {
         >
           <input
             type="text"
-            value={user.username ?? ""}
-            placeholder={user.username || "Username"}
+            value={registeredFormData.username ?? ""}
+            placeholder={registeredFormData.username || "Username"}
             onChange={handleUsernameChange}
           />
 
           <input
             type="text"
-            value={user.email ?? ""}
-            placeholder={user.email || "E-mail"}
+            value={registeredFormData.email ?? ""}
+            placeholder={registeredFormData.email || "E-mail"}
             onChange={handleEmailChange}
           />
 
           <input
             type="text"
-            value={user.firstName ?? ""}
-            placeholder={user.firstName || "First name"}
+            value={registeredFormData.firstName ?? ""}
+            placeholder={registeredFormData.firstName || "First name"}
             onChange={handleFirstnameChange}
           />
 
           <input
             type="text"
-            value={user.lastName ?? ""}
-            placeholder={user.lastName || "Last name"}
+            value={registeredFormData.lastName ?? ""}
+            placeholder={registeredFormData.lastName || "Last name"}
             onChange={handleLastnameChange}
           />
 
           <input
             type="password"
-            value={user.password ?? ""}
-            placeholder={user.password || "Password"}
+            value={registeredFormData.password ?? ""}
+            placeholder={registeredFormData.password || "Password"}
             onChange={handlePasswordChange}
           />
 
           <input
             type="password"
-            value={user.confirmPassword ?? ""}
-            placeholder={user.confirmPassword || "Confirm password"}
+            value={registeredFormData.confirmPassword ?? ""}
+            placeholder={registeredFormData.confirmPassword || "Confirm password"}
             onChange={handleConfirmPasswordChange}
           />
 

@@ -4,22 +4,36 @@
   a.link {
     @apply text-blue-600 hover:underline transition-colors duration-200;
   }
-  
-  a.nav-link-blue {
-    @apply text-white font-medium px-4 py-2 rounded transition;
-    @apply bg-blue-600 hover:bg-blue-700;
+
+  .btn-blue {
+    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded transition cursor-pointer;
   }
 
-  a.nav-link-blue.active {
+  .btn-blue:hover {
+    @apply bg-blue-700;
+  }
+
+  .btn-blue:focus {
+    @apply outline-none ring-2 ring-blue-500;
+  }
+
+  .btn-blue.active {
     @apply bg-blue-800;
   }
-
-  a.nav-link-green {
-    @apply text-white font-medium px-4 py-2 rounded transition;
-    @apply bg-green-600 hover:bg-green-700;
+  
+  .btn-green {
+    @apply bg-green-600 text-white font-medium px-4 py-2 rounded transition cursor-pointer;
   }
 
-  a.nav-link-green.active {
+  .btn-green:hover {
+    @apply bg-green-700;
+  }
+
+  .btn-green:focus {
+    @apply outline-none ring-2 ring-green-500;
+  }
+  
+  .btn-green.active {
     @apply bg-green-800;
   }
 

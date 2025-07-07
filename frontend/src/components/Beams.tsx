@@ -4,10 +4,11 @@ const Beams = () => {
   return (
     <>
       <h1>Beams</h1>
-      <Graph />
+      <div className="bg-white shadow-md rounded-2xl p-6">
+        <Graph />
+      </div>
     </>
   );
 };
-
 
 export default Beams;
