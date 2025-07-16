@@ -3,14 +3,15 @@ import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import { AuthContext } from './contexts/AuthContext';
 import AuthModal from './modals/AuthModal';
 import Main from "./components/Main";
-import Beams from "./components/Beams";
+import BeamsPage from "./pages/BeamsPage";
 import Columns from "./components/Columns";
 import Slabs from "./components/Slabs";
-import Register from "./components/Register";
-import Login from './components/Login';
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from './pages/LoginPage';
 
 const App = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalType, setAuthModalType] = useState("login");
 
   const navigate = useNavigate();
 
@@ -19,6 +20,12 @@ const App = () => {
   const { user, setUser, setAccessToken } = auth;
 
   const handleLoginModalButtonClick = () => {
+    setAuthModalType("login");
+    setIsAuthModalOpen(true);
+  }
+
+  const handleRegisterModalButtonClick = () => {
+    setAuthModalType("register");
     setIsAuthModalOpen(true);
   }
 
@@ -36,6 +43,7 @@ const App = () => {
     <div>
       <AuthModal
         isOpen={isAuthModalOpen}
+        authModalType={authModalType}
         onCloseButtonClick={handleCloseModal}
         onRequestClose={handleCloseModal}
         onSuccess={handleCloseModal}
@@ -64,15 +72,24 @@ const App = () => {
                 </button>
               </>
             ) : (
-              <NavLink className={({ isActive }) => isActive ? "btn-green active" : "btn-green"} to="/login">Login</NavLink>
+              <>
+                <NavLink className={({ isActive }) => isActive ? "btn-green active" : "btn-green"} to="/login">Login</NavLink>
+                <button
+                  type="button"
+                  className="btn-green"
+                  onClick={handleLoginModalButtonClick}
+                >
+                  Login Modal
+                </button>
+              </>
             )}
             <NavLink className={({ isActive }) => isActive ? "btn-green active" : "btn-green"} to="/register">Register</NavLink>
             <button
               type="button"
               className="btn-green"
-              onClick={handleLoginModalButtonClick}
+              onClick={handleRegisterModalButtonClick}
             >
-              Login Modal
+              Register Modal
             </button>
           </div>
         </nav>
@@ -82,11 +99,11 @@ const App = () => {
 
           <Routes>
             <Route path="/" element={<Main />} />
-            <Route path="/concrete/beams" element={<Beams />} />
+            <Route path="/concrete/beams" element={<BeamsPage />} />
             <Route path="/concrete/columns" element={<Columns />} />
             <Route path="/concrete/slabs" element={<Slabs />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </main>
       </div>

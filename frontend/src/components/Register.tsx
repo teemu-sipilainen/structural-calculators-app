@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext';
+import RegisterForm from './RegisterForm';
 import Loader from './Loader';
 import * as authService from '../services/authService';
 import * as UserTypes from '../types/UserTypes';
@@ -25,33 +26,10 @@ const Register = () => {
   if (!auth) return null;
   const { setUser, setAccessToken } = auth;
 
-  const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setRegisteredFormData(prev => {
-      return { ...prev, confirmPassword: event.target.value }
-    });
-  }
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisteredFormData(prev => {
-      return { ...prev, email: event.target.value }
-    });
-  }
-
-  const handleFirstnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisteredFormData(prev => {
-      return { ...prev, firstName: event.target.value }
-    });
-  }
-
-  const handleLastnameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisteredFormData(prev => {
-      return { ...prev, lastName: event.target.value }
-    });
-  }
-
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisteredFormData(prev => {
-      return { ...prev, password: event.target.value }
+      return { ...prev, [name]: value }
     });
   }
 
@@ -98,12 +76,6 @@ const Register = () => {
     }
   }
 
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRegisteredFormData(prev => {
-      return { ...prev, username: event.target.value }
-    });
-  }
-
   const togglePasswordVisibility = () => {
     setShowPassword(prev => !prev);
   }
@@ -113,7 +85,7 @@ const Register = () => {
   }
 
   return (
-    <>
+    <div>
       <h1>Register</h1>
 
       {registeredUser && (
@@ -154,79 +126,15 @@ const Register = () => {
         </div>
       )}
 
-      <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
-        <form
-          className="flex flex-col space-y-4"
-          onSubmit={handleRegisterSubmit}
-        >
-          <input
-            type="text"
-            value={registeredFormData.username ?? ""}
-            placeholder={registeredFormData.username || "Username"}
-            onChange={handleUsernameChange}
-          />
+      <RegisterForm
+        registeredFormData={registeredFormData}
+        handleRegisterSubmit={handleRegisterSubmit}
+        handleInputChange={handleInputChange}
+        handleResetButtonClick={handleResetButtonClick}
+        handleQuickRegisterButtonClick={handleQuickRegisterButtonClick}
+      />
 
-          <input
-            type="text"
-            value={registeredFormData.email ?? ""}
-            placeholder={registeredFormData.email || "E-mail"}
-            onChange={handleEmailChange}
-          />
-
-          <input
-            type="text"
-            value={registeredFormData.firstName ?? ""}
-            placeholder={registeredFormData.firstName || "First name"}
-            onChange={handleFirstnameChange}
-          />
-
-          <input
-            type="text"
-            value={registeredFormData.lastName ?? ""}
-            placeholder={registeredFormData.lastName || "Last name"}
-            onChange={handleLastnameChange}
-          />
-
-          <input
-            type="password"
-            value={registeredFormData.password ?? ""}
-            placeholder={registeredFormData.password || "Password"}
-            onChange={handlePasswordChange}
-          />
-
-          <input
-            type="password"
-            value={registeredFormData.confirmPassword ?? ""}
-            placeholder={registeredFormData.confirmPassword || "Confirm password"}
-            onChange={handleConfirmPasswordChange}
-          />
-
-          <button
-            type="submit"
-          >
-            Register
-          </button>
-
-          <button
-            type="reset"
-            className="bg-gray-300 text-gray-800 hover:bg-gray-400"
-            onClick={handleResetButtonClick}
-          >
-            Reset
-          </button>
-        </form>
-      </div>
-      <h1>Quick Register</h1>
-      <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6">
-        <button
-          type="button"
-          onClick={handleQuickRegisterButtonClick}
-        >
-          Quick Register & Login
-        </button>
-        <p className='text-red-600'>Password will be displayed on the screen after quick registration!</p>
-      </div>
-    </>
+    </div>
   );
 };
 

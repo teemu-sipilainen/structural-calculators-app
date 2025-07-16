@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import LoadingModal from '../modals/LoadingModal';
@@ -8,10 +8,11 @@ import * as UserTypes from '../types/UserTypes';
 
 interface LoginProps {
   onSuccess?: () => void;
+  onFormChange?: (hasInput: boolean) => void;
 }
 
-const Login = ({ onSuccess }: LoginProps) => {
-  const auth = useContext(AuthContext);
+const Login = ({ onSuccess, onFormChange }: LoginProps) => {
+  const authContext = useContext(AuthContext);
   const navigate = useNavigate();
 
   const initialUserState: UserTypes.UserLoginPostRequest = {
@@ -22,8 +23,14 @@ const Login = ({ onSuccess }: LoginProps) => {
   const [loginFormData, setLoginFormData] = useState<UserTypes.UserLoginPostRequest>(initialUserState);
   const [isLoading, setIsLoading] = useState(false);
 
-  if (!auth) return null;
-  const { setUser, setAccessToken } = auth;
+  useEffect(() => {
+    if (onFormChange) {
+      onFormChange(loginFormData.username !== '' || loginFormData.password !== '');
+    }
+  }, [loginFormData.username, loginFormData.password, onFormChange])
+
+  if (!authContext) return null;
+  const { setUser, setAccessToken } = authContext;
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLoginFormData(prev => {
@@ -71,9 +78,6 @@ const Login = ({ onSuccess }: LoginProps) => {
     <>
       <LoadingModal
         isOpen={isLoading}
-        shouldCloseOnCloseButton={false}
-        shouldCloseOnEsc={false}
-        shouldCloseOnOverlayClick={false}
       />
 
       <div className="flex flex-col space-y-4 max-w-md mx-auto">

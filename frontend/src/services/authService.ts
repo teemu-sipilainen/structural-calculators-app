@@ -1,16 +1,15 @@
 import axios from 'axios';
 import * as UserTypes from '../types/UserTypes';
 
-const baseUrl = 'http://localhost:3000';
 
 export const loginUser = async (userToLogin: UserTypes.UserLoginPostRequest) => {
-  return axios.post(`${baseUrl}/api/auth/login`, userToLogin);
+  return axios.post(`/api/auth/login`, userToLogin);
 }
 
 export const quickRegisterUser = async () => {
-  return axios.post(`${baseUrl}/api/auth/quick-register`);
+  return axios.post(`/api/auth/quick-register`);
 }
 
 export const registerUser = async (userToBeRegistered: UserTypes.UserRegisterPostRequest) => {
-  return axios.post(`${baseUrl}/api/auth/register`, userToBeRegistered);
+  return axios.post(`/api/auth/register`, userToBeRegistered);
 }

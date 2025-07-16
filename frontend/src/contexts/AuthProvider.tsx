@@ -36,8 +36,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [])
 
+  const logout = () => {
+    setUser(null);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken }}>
+    <AuthContext.Provider value={{ user, setUser, accessToken, setAccessToken, logout }}>
       {children}
     </AuthContext.Provider>
   );

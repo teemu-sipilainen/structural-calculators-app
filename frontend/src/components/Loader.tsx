@@ -1,3 +1,5 @@
+// Reviewed by T. S. on July 8, 2025
+
 const Loader = () => {
   return (
     <div className="flex justify-center items-center mt-4">

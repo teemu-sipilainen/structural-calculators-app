@@ -11,6 +11,7 @@ interface DatabaseError extends Error {
 const {
   PG_HOST,
   PG_PORT,
+  PG_SSL,
   PG_USERNAME,
   PG_PASSWORD,
   PG_DATABASE,
@@ -22,7 +23,7 @@ export const pool = new pg.Pool({
   user: PG_USERNAME,
   password: String(PG_PASSWORD),
   database: PG_DATABASE,
-  ssl: process.env.NODE_ENV === 'production' ? true : false,
+  ssl: PG_SSL === 'true'
 });
 
 const executeQuery = async (query: string, parameters?: QueryParameter[]): Promise<pg.QueryResult> => {

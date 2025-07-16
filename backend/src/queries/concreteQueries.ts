@@ -1,4 +1,4 @@
-export const getAllBeams = `
+export const getBeams = `
   SELECT id, name, length, width, height, 
     concrete_grade AS "concreteGrade", 
     steel_grade AS "steelGrade", 

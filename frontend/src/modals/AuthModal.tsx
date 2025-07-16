@@ -1,23 +1,36 @@
+import { useState } from 'react';
 import CustomModal from './CustomModal';
 import Login from '../components/Login';
+import Register from '../components/Register';
 
 interface AuthModalProps {
   isOpen: boolean;
+  authModalType: string;
   contentLabel?: string;
   onCloseButtonClick: () => void;
   onRequestClose: () => void;
   onSuccess: () => void;
 }
 
-const AuthModal = ({ isOpen, contentLabel, onCloseButtonClick, onRequestClose, onSuccess }: AuthModalProps) => {
+const AuthModal = ({ isOpen, authModalType = "login", contentLabel, onCloseButtonClick, onRequestClose, onSuccess }: AuthModalProps) => {
+  const [hasInput, setHasInput] = useState(false);
+
   return (
     <CustomModal
       isOpen={isOpen}
+      canClose={!hasInput}
       contentLabel={contentLabel || "Login"}
-      onCloseButtonClick={onCloseButtonClick}
+      showTopRightCloseButton={true}
+      showBottomCloseButton={true}
+      onTopRightCloseButtonClick={onCloseButtonClick}
+      onBottomCloseButtonClick={onCloseButtonClick}
       onRequestClose={onRequestClose}
     >
-      <Login onSuccess={onSuccess} />
+      {authModalType === 'login' ? (
+        <Login onSuccess={onSuccess} onFormChange={setHasInput} />
+      ) : (
+        <Register />
+      )}
     </CustomModal >
   );
 };

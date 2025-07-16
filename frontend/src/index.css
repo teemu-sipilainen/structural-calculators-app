@@ -37,12 +37,27 @@
     @apply bg-green-800;
   }
 
+  .btn-red {
+    @apply bg-red-600 text-white font-medium px-4 py-2 rounded transition cursor-pointer;
+  }
+
   body {
     @apply min-h-screen bg-gray-100 text-gray-900;
   }
 
+  body.modal-open {
+    overflow: hidden;
+  }
+
   button {
     @apply bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700 cursor-pointer;
+  }
+
+  button[aria-label="Close modal"] {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
   }
 
   div.card {
@@ -72,7 +87,7 @@
 
   /* .ReactModal__Content */
   .modal-content {
-    @apply bg-white rounded-2xl shadow-xl p-6 max-w-md w-full relative outline-none;
+    @apply bg-white mx-auto my-10 rounded-2xl shadow-xl p-6 max-w-md max-h-[90vh] overflow-y-auto w-full relative outline-none;
   }
 
   .modal-close-button {
