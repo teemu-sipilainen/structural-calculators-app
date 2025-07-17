@@ -1,6 +1,69 @@
 @import "tailwindcss";
 
 @layer base {
+  a.link {
+    @apply text-blue-600 hover:underline transition-colors duration-200;
+  }
+
+  .btn-blue {
+    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded transition cursor-pointer;
+  }
+
+  .btn-blue:hover {
+    @apply bg-blue-700;
+  }
+
+  .btn-blue:focus {
+    @apply outline-none ring-2 ring-blue-500;
+  }
+
+  .btn-blue.active {
+    @apply bg-blue-800;
+  }
+  
+  .btn-green {
+    @apply bg-green-600 text-white font-medium px-4 py-2 rounded transition cursor-pointer;
+  }
+
+  .btn-green:hover {
+    @apply bg-green-700;
+  }
+
+  .btn-green:focus {
+    @apply outline-none ring-2 ring-green-500;
+  }
+  
+  .btn-green.active {
+    @apply bg-green-800;
+  }
+
+  .btn-red {
+    @apply bg-red-600 text-white font-medium px-4 py-2 rounded transition cursor-pointer;
+  }
+
+  body {
+    @apply min-h-screen bg-gray-100 text-gray-900;
+  }
+
+  body.modal-open {
+    overflow: hidden;
+  }
+
+  button {
+    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700 cursor-pointer;
+  }
+
+  button[aria-label="Close modal"] {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  div.card {
+    @apply bg-white shadow-md rounded-2xl p-6;
+  }
+
   h1 {
     @apply text-3xl font-bold text-gray-800;
   }
@@ -9,11 +72,25 @@
     @apply text-2xl font-semibold text-gray-700;
   }
 
+  input {
+    @apply bg-white border border-gray-300 rounded my-2 px-4 py-2 w-full max-w-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+
   p {
     @apply text-base text-gray-700 leading-relaxed;
   }
 
-  button {
-    @apply bg-blue-600 text-white font-medium px-4 py-2 rounded hover:bg-blue-700;
+  /* .ReactModal__Overlay */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/40 flex items-center justify-center z-50;
+  }
+
+  /* .ReactModal__Content */
+  .modal-content {
+    @apply bg-white mx-auto my-10 rounded-2xl shadow-xl p-6 max-w-md max-h-[90vh] overflow-y-auto w-full relative outline-none;
+  }
+
+  .modal-close-button {
+    @apply absolute top-4 right-4 text-gray-500 hover:text-gray-700;
   }
 }
