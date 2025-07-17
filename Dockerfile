@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 RUN apk add --no-cache bash
 
 WORKDIR /frontend
@@ -19,7 +19,7 @@ COPY ./backend/src ./src
 RUN npm ci
 RUN npm run build
 
-FROM node:18-alpine AS final
+FROM node:22-alpine AS final
 RUN apk add --no-cache bash
 
 WORKDIR /app
